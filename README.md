@@ -1,245 +1,176 @@
-<div align="center">
+# YouTube to Obsidian Notes
 
-# 🎬 → 🗒️ YouTube To Obsidian Notes
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/wordmark-dark.svg">
+    <img src="docs/wordmark-light.svg" alt="A video frame, an arrow and a note page, drawn in fine lines, with the words YouTube to Obsidian Notes" width="560">
+  </picture>
+</p>
 
-**Turn any YouTube video or playlist into deep, revision-ready Obsidian study notes — with the original explanation, plain-English meanings, diagrams, and self-tests.**
+YouTube to Obsidian Notes is a [Claude Code](https://claude.com/claude-code) skill. Give it a YouTube video, a playlist or a transcript, and it writes study notes into your Obsidian vault.
 
-A [Claude Code](https://claude.com/claude-code) skill. One sentence in, a structured knowledge base out.
-
-[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-D97757?logo=anthropic&logoColor=white)](https://docs.claude.com/en/docs/claude-code/skills)
-[![Obsidian](https://img.shields.io/badge/Obsidian-Notes-7C3AED?logo=obsidian&logoColor=white)](https://obsidian.md)
-[![YouTube](https://img.shields.io/badge/YouTube-Playlists-FF0000?logo=youtube&logoColor=white)](https://youtube.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/madhav-wakhare/youtube-to-obsidian-notes?style=social)](https://github.com/madhav-wakhare/youtube-to-obsidian-notes/stargazers)
-
-[Why](#-why) · [What you get](#-what-you-get) · [Install](#-install) · [Usage](#-usage) · [How it works](#%EF%B8%8F-how-it-works) · [Example](#-example) · [FAQ](#-faq)
-
-</div>
-
----
-
-## 💡 Why
-
-Most "video to notes" tools give you a **summary**. Summaries are great for deciding whether to watch — and useless for actually **learning** the material.
-
-This skill does the opposite. It keeps the speaker's full reasoning, then adds a layer that helps you **understand it and remember it**:
+The notes are made to learn from and to revise, not to skim. They keep the speaker's full explanation, and after each paragraph they add one line that says the same idea in simple words. Each note ends with its key learnings and a few questions to test yourself. Screenshots of the video's diagrams sit next to the text they explain, each with a link back to that moment in the video.
 
 ```markdown
-The model loads each layer's weights once and uses them for every token in the prompt.
-For a 2,000-token prompt, every byte pulled from memory does ~2,000 operations.
+The model loads each layer's weights from memory once, and uses that single transfer for
+every token in the prompt. For a 2,000-token prompt, each byte does about 2,000 operations.
 
 ==🔵 Meaning: The chip loads the weights one time and uses them for all prompt tokens.
 Many tokens share the data cost.==
 ```
 
-Read the original. Read the meaning. Check yourself. Revise later in minutes.
+## A quick tour
 
----
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Sub-note</b><br>
+      <sub>One per topic of the video. Main learning on top, the original text with a Meaning line after each paragraph, screenshots with timestamps, key learnings and a self-test at the end.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <b>Chapter overview</b><br>
+      <sub>One per video. The whole video in one paragraph, a table of its sub-notes, a diagram of the argument, the top ten learnings, the numbers to remember and the transcript fixes.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Playlist index</b><br>
+      <sub>One per playlist. The chapters and their status, a running list of learnings, the formulas, and searches that collect every key learning or question.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <b>Revision summary</b><br>
+      <sub>One page for the whole playlist. A card per chapter, the top twenty learnings, cheat sheets for formulas and numbers, and one question per chapter.</sub>
+    </td>
+  </tr>
+</table>
 
-## ✨ What you get
+A full example sub-note is in [`examples/sample-sub-note.md`](examples/sample-sub-note.md). Open it in Obsidian to see the callouts.
 
-| | Feature | |
-|---|---|---|
-| 📂 | **One folder per video**, split into topic sub-notes (one per YouTube chapter) | not one giant wall of text |
-| 📖 | **Original explanation kept** — cleaned transcript, author's examples and numbers | nothing important lost |
-| 🔵 | **`Meaning` line after every paragraph** in Simplified Technical English | understand on first read |
-| 🖼️ | **Screenshots of the video's diagrams**, each with a clickable `▶ m:ss` timestamp | jump back to the exact moment |
-| 🎯 | **Main learning** callout on top, **Key learnings** ⭐ box at the end | the "so what" in 10 seconds |
-| ❓ | **Self-test questions** as collapsible callouts | active recall built in |
-| 🗺️ | **Chapter overview** — one-breath summary, story diagram, top 10, numbers table | see the whole video at a glance |
-| 📚 | **Playlist index** — chapters, running list of learnings, formulas, search tips | a course map in your vault |
-| ⚡ | **Revision summary** for the whole playlist — cards, cheat sheets, quick quiz | exam-style review in one page |
-| 🔧 | **Transcript fixes** — auto-caption errors corrected and listed | names and numbers you can trust |
-| 🔗 | **Wikilinks** to earlier chapters and your existing notes, all validated | a connected graph, not orphans |
+## Features
 
----
+### Notes
 
-## 🚀 Install
+- **Original text, kept**: the transcript is cleaned up (filler, repeats and caption errors removed), but the speaker's reasoning, examples and numbers stay. A 30-minute video becomes several sub-notes, not one short summary.
+- **Meaning lines**: after each paragraph, `==🔵 Meaning: …==` repeats the idea in short sentences. They follow [Simplified Technical English](https://www.asd-ste100.org): active voice, one idea per sentence, at most 25 words.
+- **Learnings**: each sub-note starts with a **Main learning** callout and ends with a **Key learnings** box. A star marks the one to three points that matter most.
+- **Self-test**: questions as collapsible callouts, so the answer stays hidden until you open it.
+- **Links**: sub-notes link to the previous and next one, to the chapter overview, to earlier chapters and to notes that already exist in your vault. Every link uses a note's file name and is checked before the work is done.
+- **Transcript fixes**: auto-captions get names, products and numbers wrong. The skill corrects them in the notes and lists every fix in the chapter overview.
+
+### Screenshots
+
+- **Diagrams only**: the skill takes a frame every 10 seconds, lays them out in grids, and keeps the frames that show a complete diagram, chart or table. It skips faded frames, frames caught mid-animation and title cards.
+- **Timestamps**: under each screenshot, a `▶ m:ss` link opens the video at that second.
+- **Files**: screenshots are PNGs named `<prefix>-<seconds>.png` (for example `llm-inf-ch3-0130.png`) in the vault's attachment folder. About 10 to 35 MB for a 30-minute video.
+
+### Playlists
+
+- **One folder per video**, numbered in playlist order, inside one folder for the playlist.
+- **Several videos in one request**: "Do the same for videos 7, 8 and 9" downloads all of them first, then writes one chapter at a time.
+- **Indexes stay current**: after each chapter, the playlist index and your subject index get a new row, new learnings and new formulas.
+
+### Your vault stays yours
+
+- **No commits**: the skill never commits or pushes your vault, so it works next to obsidian-git auto-backup.
+- **No deletes**: a note that gets replaced is marked `status: outdated` and links to the new one.
+- **No leftovers**: the downloaded video is deleted when the notes are done.
+- **Asks first**: it asks before it installs anything.
+
+## Install
+
+You need [Claude Code](https://claude.com/claude-code), [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [ffmpeg](https://ffmpeg.org).
 
 ```bash
-# 1. Install the skill
 git clone https://github.com/madhav-wakhare/youtube-to-obsidian-notes ~/.claude/skills/youtube-to-obsidian-notes
-
-# 2. Install the tools it uses for video, captions and screenshots
-brew install yt-dlp ffmpeg        # macOS
-# sudo apt install ffmpeg && pipx install yt-dlp   # Linux
+brew install yt-dlp ffmpeg
 ```
 
-Optional:
-- Set your vault once: `export OBSIDIAN_VAULT="$HOME/path/to/vault"` (or just tell Claude the path).
-- Install a [Simplified Technical English](https://www.asd-ste100.org) skill named `simplified-technical-english` to auto-check the 🔵 Meaning lines.
+On Linux, install ffmpeg with your package manager and yt-dlp with `pipx install yt-dlp`.
 
-To update later: `git -C ~/.claude/skills/youtube-to-obsidian-notes pull`
+To update:
 
----
-
-## 🧑‍💻 Usage
-
-Open Claude Code and just ask. The skill triggers on its own:
-
-```text
-Add this playlist to my Obsidian vault under "AI": https://youtube.com/playlist?list=...
-```
-```text
-Do the same for the next video
-```
-```text
-Do the same for videos 7, 8 and 9
-```
-```text
-Add screenshots from the video to these notes
-```
-```text
-Make a revision summary note for the whole playlist
+```bash
+git -C ~/.claude/skills/youtube-to-obsidian-notes pull
 ```
 
-Or call it directly: `/youtube-to-obsidian-notes <url>`
+## Use
 
-You can also **paste a transcript** instead of a URL.
+Ask Claude Code in plain words. The skill starts on its own:
 
----
+| You say | What happens |
+| --- | --- |
+| "Add this playlist to my Obsidian vault under AI: `<url>`" | Creates the playlist folder and index, then writes chapter 1 |
+| "Do the same for the next video" | Writes the next chapter and updates the indexes |
+| "Do the same for videos 7, 8 and 9" | Downloads all three, then writes them one by one |
+| "Here is the transcript: …" | Uses your transcript instead of downloading captions |
+| "Add screenshots from the video to these notes" | Adds diagrams to notes that already exist |
+| "Make a revision summary for the whole playlist" | Writes the one-page revision note |
 
-## ⚙️ How it works
+You can also run `/youtube-to-obsidian-notes <url>`.
 
-```text
- YouTube URL / transcript
-          │
-          ▼
- 1. List videos ─────────── yt-dlp --flat-playlist
- 2. Get transcript ──────── pasted · yt-dlp captions · YouTube transcript panel (fallback)
- 3. Contact sheets ──────── frame every 10 s → 4×5 grids (exact timestamps)
- 4. Pick diagrams ───────── Claude reads the sheets, keeps complete diagrams only
- 5. Plan sub-notes ──────── one per YouTube chapter
- 6. Write notes ─────────── original text + 🔵 Meaning + learnings + self-test
- 7. Embed screenshots ───── {{img 130}} → image + ▶ 2:10 timestamp link
- 8. Update indexes ──────── chapter overview · playlist index · subject index
- 9. Verify ──────────────── link check · STE check · every frame used
-10. Clean up ────────────── delete the downloaded video
+## Configuration
+
+| Setting | Default | Meaning |
+| --- | --- | --- |
+| Vault path | asked on first use | Tell Claude the path, or set `OBSIDIAN_VAULT=/path/to/vault` |
+| Attachment folder | from `.obsidian/app.json`, else `images/` | Where screenshots go |
+| Screenshot prefix | `<playlist-slug>-ch<N>` | File name prefix for each chapter's screenshots |
+| Meaning-line check | on if available | Uses a `simplified-technical-english` skill if one is installed; skipped if not |
+
+To change the note layout, edit [`references/templates.md`](references/templates.md). To change the rules (naming, tags, image format), edit [`references/conventions.md`](references/conventions.md). Claude follows both files.
+
+## What it writes
+
+```
+<vault>/
+  images/
+    llm-inf-ch1-0130.png                        screenshots, one file per diagram
+  AI-inference/
+    06 Engineering Behind LLM Inference/        one folder per playlist
+      LLM Inference … - Playlist Index.md
+      LLM Inference - Revision Summary.md
+      01 The Memory Wall/                       one folder per video
+        01 The Memory Wall.md                   chapter overview
+        1.1 What LLM Inference Is.md            sub-notes
+        1.2 The 30 ms Puzzle.md
 ```
 
-### Output structure
+## How it works
 
-```text
-<Vault>/
-├── images/
-│   ├── llm-inf-ch1-0130.png
-│   └── …
-└── AI-inference/
-    └── 06 Engineering Behind LLM Inference/
-        ├── LLM Inference from First Principles - Playlist Index.md
-        ├── LLM Inference - Revision Summary.md
-        ├── 01 The Memory Wall/
-        │   ├── 01 The Memory Wall.md                ← chapter overview
-        │   ├── 1.1 What LLM Inference Is.md         ← sub-notes
-        │   ├── 1.2 The 30 ms Puzzle.md
-        │   └── …
-        └── 02 Inside the GPU/
-            └── …
+1. **List the videos** in the playlist with yt-dlp.
+2. **Get the transcript**: your pasted text, or YouTube's captions through yt-dlp. When YouTube refuses caption downloads (`HTTP Error 429`), it reads the transcript panel on the video page in Claude Code's browser instead.
+3. **Make contact sheets**: one frame every 10 seconds, in grids of 4 by 5. The time of each tile is known exactly, so a chosen tile maps to an exact second.
+4. **Pick the diagrams** from the sheets and save them at full size.
+5. **Plan the sub-notes** from the video's own chapter list.
+6. **Write the notes**, with `{{img 130}}` placeholders where screenshots go.
+7. **Insert the screenshots**: a script turns each placeholder into the image and its timestamp link, and reports frames that are unused or missing.
+8. **Update the indexes**.
+9. **Check**: every link resolves, every Meaning line passes the language check, every screenshot is used.
+10. **Clean up**: delete the downloaded video.
+
+## Files
+
+```
+SKILL.md                     the workflow Claude follows
+references/
+  templates.md               layouts for each note type
+  conventions.md             vault rules, naming, frontmatter, transcript fixes, lessons learned
+scripts/
+  make_sheets.sh             download a video, build contact sheets
+  extract_frames.sh          save chosen frames into the vault
+  preview.sh                 tile candidate frames for a second look
+  vtt_to_text.py             turn auto-captions into timestamped text
+  expand_images.py           insert screenshots, report unused or missing frames
+  check_links.py             find links that do not resolve
+  check_meaning_ste.sh       check Meaning lines against Simplified Technical English
+examples/
+  sample-sub-note.md         one finished sub-note
+docs/                        images used in this README
 ```
 
----
+- The scripts need bash, Python 3 and ffmpeg. They take absolute paths and do not change anything outside the folders you pass to them.
+- The skill was built and tested on a nine-part technical course of about four hours. The note structure works for any lecture, talk or course.
 
-## 📝 Example
+## License
 
-A real sub-note produced by the skill (shortened). Full note: [`examples/sample-sub-note.md`](examples/sample-sub-note.md).
-
-```markdown
-# 1.5 Prefill vs Decode — Same Bytes, Different Work
-
-> [!summary] Main learning
-> Prefill and decode move the **same bytes** (the full model) on each forward pass.
-> Prefill uses them for **~2,000 tokens** at once; decode for **1**. Decode is not slow
-> because the model is big — it is slow because it has **no tokens to share the cost**.
-
-[▶ Watch 10:29](https://youtube.com/watch?v=…&t=629s) · Previous: [[1.4 …]] · Next: [[1.6 …]]
-
-## The common wrong guess
-
-![[llm-inf-ch1-0805.png]]
-*▶ [13:25](https://youtube.com/watch?v=…&t=805s)*
-
-A natural first guess is that decode is slow because the model is large, and that guess
-is correct in a way that misses the deeper point. The model is **exactly the same size**
-in both phases…
-
-==🔵 Meaning: The same data moved across the bus does more or less work, depending on the phase.==
-
-> [!important] Key learnings
-> - ⭐ Decode is slow **not because the model is big**, but because **one token pays the full cost**.
-
-> [!question]- Why is "decode is slow because the model is big" only half true?
-> The model is the same size in prefill, and prefill is fast per token…
-```
-
----
-
-## 🗂️ What's inside
-
-| File | Purpose |
-|---|---|
-| [`SKILL.md`](SKILL.md) | The workflow Claude follows, step by step |
-| [`references/templates.md`](references/templates.md) | Layouts for sub-note, chapter overview, playlist index, revision summary |
-| [`references/conventions.md`](references/conventions.md) | Vault rules, naming, frontmatter, image format, transcript cleanup, lessons learned |
-| [`scripts/make_sheets.sh`](scripts/make_sheets.sh) | Download a video and build contact sheets |
-| [`scripts/extract_frames.sh`](scripts/extract_frames.sh) | Save chosen frames as `<prefix>-<seconds>.png` |
-| [`scripts/preview.sh`](scripts/preview.sh) | Tile candidate frames to reject faded / mid-animation shots |
-| [`scripts/vtt_to_text.py`](scripts/vtt_to_text.py) | Turn YouTube auto-captions into timestamped text |
-| [`scripts/expand_images.py`](scripts/expand_images.py) | Replace `{{img N}}` with embed + timestamp; report unused/missing frames |
-| [`scripts/check_links.py`](scripts/check_links.py) | Find wikilinks that don't resolve |
-| [`scripts/check_meaning_ste.sh`](scripts/check_meaning_ste.sh) | Check 🔵 Meaning lines against Simplified Technical English |
-
----
-
-## 🛡️ Safe by design
-
-- ✅ **Never commits or pushes your vault** — plays nicely with obsidian-git auto-backup
-- ✅ **Never deletes notes** — replaced notes are marked `status: outdated`
-- ✅ **Links use filenames**, never aliases, and every link is validated
-- ✅ **Deletes downloaded videos** when done; screenshots are small PNGs
-- ✅ **Asks before installing** anything
-
----
-
-## ❓ FAQ
-
-<details>
-<summary><b>Does it work without a playlist?</b></summary>
-
-Yes — a single video URL or a pasted transcript works. A playlist just adds the index and revision summary.
-</details>
-
-<details>
-<summary><b>YouTube blocks caption downloads (HTTP 429). What happens?</b></summary>
-
-The skill falls back to reading the transcript from YouTube's own transcript panel in Claude Code's built-in browser. If that's not available, it asks you to paste the transcript.
-</details>
-
-<details>
-<summary><b>Does it work with non-technical videos?</b></summary>
-
-Yes. It was built on a 9-part technical course, but the structure — original text, meaning line, learnings, self-test — works for any lecture, talk, or course.
-</details>
-
-<details>
-<summary><b>How much disk space do screenshots take?</b></summary>
-
-Roughly 10–35 MB per 30-minute video (2–3 diagrams per minute at 720p).
-</details>
-
-<details>
-<summary><b>Can I change the note style?</b></summary>
-
-Yes. Edit [`references/templates.md`](references/templates.md) and [`references/conventions.md`](references/conventions.md) — Claude follows them exactly.
-</details>
-
----
-
-## 🤝 Contributing
-
-Issues and pull requests are welcome — new templates, better frame selection, Windows support, other note apps (Logseq, Notion).
-
-If this skill helped you learn something, **please ⭐ the repo** so others can find it.
-
-## 📄 License
-
-[MIT](LICENSE) © madhav-wakhare
+[MIT](LICENSE)
